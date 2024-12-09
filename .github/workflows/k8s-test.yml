@@ -1,0 +1,42 @@
+name: Test Kubernetes Connection
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-k8s:
+    name: Test Kubernetes Connectivity
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.28.0' # Match your cluster version
+
+      - name: Configure Kubernetes Access
+        run: |
+          echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig.yaml
+          export KUBECONFIG=kubeconfig.yaml
+
+      - name: Test Kubernetes Cluster
+        run: |
+          echo "Testing connection to Kubernetes cluster..."
+          kubectl cluster-info
+          kubectl get nodes
+
+      - name: Deploy a Test Pod
+        run: |
+          echo "Deploying a test Nginx pod..."
+          kubectl run test-nginx --image=nginx --port=80
+          kubectl get pods
+
+      - name: Clean Up Test Pod
+        run: |
+          echo "Cleaning up test Nginx pod..."
+          kubectl delete pod test-nginx
