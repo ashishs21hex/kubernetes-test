@@ -23,6 +23,8 @@ jobs:
         run: |
           echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig.yaml
           export KUBECONFIG=kubeconfig.yaml
+          echo "KUBECONFIG set to: $KUBECONFIG"
+          kubectl config view
 
       - name: Test Kubernetes Cluster
         run: |
