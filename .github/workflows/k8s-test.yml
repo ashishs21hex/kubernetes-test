@@ -8,7 +8,7 @@ on:
 jobs:
   test-k8s:
     name: Test Kubernetes Connectivity
-    runs-on: minikube
+    runs-on: nginx-bf5d5cf98-qmzzf
 
     steps:
       - name: Checkout Code
