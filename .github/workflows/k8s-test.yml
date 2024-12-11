@@ -8,7 +8,7 @@ on:
 jobs:
   test-k8s:
     name: Test Kubernetes Connectivity
-    runs-on: kubernetes-cluster
+    runs-on: minikube
 
     steps:
       - name: Checkout Code
